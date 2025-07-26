@@ -33,7 +33,8 @@ fi
 
 
 # take variables from environment if set
-SERVICE_NAME="rl-crm"
+#SERVICE_NAME="rl-crm"
+SERVICE_NAME="rl-crm-prd-clean-copy"
 SERVICE_JAR=${SERVICE_JAR:=core-service-impl/target/core-service-impl-0.0.1-SNAPSHOT.jar}
 SERVICE_PID=${SERVICE_PID:=service-pid.pid}
 LOG_FILE=${LOG_FILE:=console.log}
