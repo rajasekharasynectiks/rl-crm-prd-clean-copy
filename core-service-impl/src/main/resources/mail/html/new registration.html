@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome Email</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            align-items: center;
+            height: 100vh;
+        }
+        .container {
+            background-color: #FFFFFF;
+            padding: 30px;
+        }
+        .header {
+            text-align: center;
+        }
+        .header img {
+            width: 100px;
+        }
+        .header h1 {
+            color: #4A5AF6;
+            font-size: 24px;
+            text-align: left;
+        }
+        .content {
+            margin-top: 20px;
+        }
+        .content p {
+            font-size: 16px;
+            line-height: 1.5;
+            color: rgb(56 56 116);
+        }
+        .content a {
+            color: #4A5AF6;
+            text-decoration: none;
+        }
+        .content a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <img src="data:image/png;base64, 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" alt="RasiLabs logo">
+            <h1>Welcome</h1>
+        </div>
+        <div class="content">
+            <p>Dear <b th:text="${username}"></b>,</p>
+            <p>Welcome to RasiLabs. We're delighted to have you on board.</p>
+            <p>As part of the onboarding process, we are providing you with your login credentials to access RasiLabs services. Please keep this information secure and do not share it with anyone.</p>
+            <p>Your login details are as follows:</p>
+            <p>Login ID: <b th:text="${username}"></b></p>
+            <p>Password: <b th:text="${password}"></b></p>
+<!--            <p>You can use the below link to login.</p>-->
+<!--            <p><a href=\"https://appkube.synectiks.net\">https://appkube.synectiks.net</a></p>-->
+            <p>Best regards,<br><b>RasiLabs</b></p>
+        </div>
+    </div>
+</body>
+</html>

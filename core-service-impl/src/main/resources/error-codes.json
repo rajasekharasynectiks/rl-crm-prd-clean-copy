@@ -1,0 +1,213 @@
+{
+  "errors": [
+    {
+      "code": 600,
+      "message": "username already exist",
+      "errorKey": "username.already.exist"
+    },
+    {
+      "code": 601,
+      "message": "username not found",
+      "errorKey": "username.not.found"
+    },
+    {
+      "code": 602,
+      "message": "username not provided",
+      "errorKey": "username.not.provided"
+    },
+    {
+      "code": 603,
+      "message": "email id already exist",
+      "errorKey": "email.already.exist"
+    },
+    {
+      "code": 604,
+      "message": "email id not found",
+      "errorKey": "email.not.found"
+    },
+    {
+      "code": 605,
+      "message": "email id not provided",
+      "errorKey": "email.not.provided"
+    },
+    {
+      "code": 606,
+      "message": "domain not allowed",
+      "errorKey": "domain.not.allowed"
+    },
+    {
+      "code": 607,
+      "message": "mfa-key not provided",
+      "errorKey": "mfa-key.not.provided"
+    },
+    {
+      "code": 608,
+      "message": "mfa token not provided",
+      "errorKey": "mfa-token.not.provided"
+    },
+    {
+      "code": 609,
+      "message": "enabling mfa failed",
+      "errorKey": "enabling.mfa.failed"
+    },
+    {
+      "code": 610,
+      "message": "disabling mfa failed",
+      "errorKey": "disabling.mfa.failed"
+    },
+    {
+      "code": 611,
+      "message": "otp not provided",
+      "errorKey": "otp.not.provided"
+    },
+    {
+      "code": 612,
+      "message": "otp invalid",
+      "errorKey": "otp.invalid"
+    },
+    {
+      "code": 613,
+      "message": "otp expired",
+      "errorKey": "otp.expired"
+    },
+    {
+      "code": 614,
+      "message": "password not provided",
+      "errorKey": "password.not.provided"
+    },
+    {
+      "code": 615,
+      "message": "role already exist",
+      "errorKey": "role.already.exist"
+    },
+    {
+      "code": 616,
+      "message": "role not found",
+      "errorKey": "role.not.found"
+    },
+    {
+      "code": 617,
+      "message": "role not provided",
+      "errorKey": "role.not.provided"
+    },
+    {
+      "code": 618,
+      "message": "current password incorrect",
+      "errorKey": "current.password.incorrect"
+    },
+    {
+      "code": 619,
+      "message": "user not found",
+      "errorKey": "user.not.found"
+    },
+    {
+      "code": 620,
+      "message": "email delivery failed",
+      "errorKey": "email.delivery.failed"
+    },
+    {
+      "code": 621,
+      "message": "OTP authentication failure",
+      "errorKey": "OTP.authentication.failure"
+    },
+    {
+      "code": 622,
+      "message": "Enabling MFA to all users failed",
+      "errorKey": "Enforced.MFA.enable.failed"
+    },
+    {
+      "code": 623,
+      "message": "Disabling MFA from all users failed",
+      "errorKey": "Enforced.MFA.disable.failed"
+    },
+    {
+      "code": 624,
+      "message": "global search failed",
+      "errorKey": "global.search.failed"
+    },
+
+    {
+      "code": 625,
+      "message": "customer already exist",
+      "errorKey": "customer.already.exist"
+    },
+    {
+      "code": 626,
+      "message": "customer not found",
+      "errorKey": "customer.not.found"
+    },
+    {
+      "code": 627,
+      "message": "customer not provided",
+      "errorKey": "customer.not.provided"
+    },
+
+    {
+      "code": 630,
+      "message": "mandatory field missing",
+      "errorKey": "mandatory.field.missing"
+    },
+    {
+      "code": 631,
+      "message": "preference/settings not found",
+      "errorKey": "preference.not.found"
+    },
+    {
+      "code": 632,
+      "message": "file upload failed",
+      "errorKey": "file.upload.failed"
+    },
+    {
+      "code": 633,
+      "message": "file deletion failed",
+      "errorKey": "file.deletion.failed"
+    },
+    {
+      "code": 634,
+      "message": "file not found",
+      "errorKey": "file.not.found"
+    },
+    {
+      "code": 635,
+      "message": "file download failed",
+      "errorKey": "file.download.failed"
+    },
+
+    {
+      "code": 636,
+      "message": "quotation already exist",
+      "errorKey": "quotation.already.exist"
+    },
+    {
+      "code": 637,
+      "message": "quotation not found",
+      "errorKey": "quotation.not.found"
+    },
+    {
+      "code": 638,
+      "message": "quotation not provided",
+      "errorKey": "quotation.not.provided"
+    },
+
+    {
+      "code": 639,
+      "message": "document already exist",
+      "errorKey": "document.already.exist"
+    },
+    {
+      "code": 640,
+      "message": "document not found",
+      "errorKey": "document.not.found"
+    },
+    {
+      "code": 641,
+      "message": "document not provided",
+      "errorKey": "document.not.provided"
+    },
+    {
+      "code": 642,
+      "message": "html to pdf conversion failed",
+      "errorKey": "html.to.pdf.conversion.failed"
+    }
+  ]
+}

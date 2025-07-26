@@ -1,0 +1,2133 @@
+openapi: 3.0.3 # version of the specification
+info:
+    title: RASILABS-CRM-API-COLLECTION
+    version: 1.0.0
+    description: Rasilabs CRM API Specifications
+
+servers:
+    - url: '{apiurl}'
+      variables:
+          apiurl:
+              enum:
+                  - http://localhost:8092/api
+              default: http://localhost:8092/api
+          authurl:
+              enum:
+                  - http://localhost:8092/auth
+              default: http://localhost:8092/auth
+tags:
+    - name: GlobalSearch
+      description: perform Search operation on entities
+    - name: Auth
+      description: perform user authentication
+    - name: User
+      description: perform CRUD operations on users table
+    - name: Role
+      description: perform CRUD operations on roles table
+    - name: Permission
+      description: get all permissions
+    - name: Preferences
+      description: perform CRUD operations on preferences table
+    - name: Customers
+      description: perform CRUD operations on customers table
+    - name: CustomerNotes
+      description: perform CRUD operations on customer_notes table
+    - name: Quotations
+      description: perform CRUD operations on quotations table
+    - name: Documents
+      description: perform CRUD operations on documents table
+    - name: EntityStatus
+      description: get status of various entities
+    - name: Countries
+      description: get list of countries
+    - name: States
+      description: get details of states
+
+paths:
+    /sign-in:
+        post:
+            tags:
+                - Auth
+            summary: user sign-in
+            operationId: userSignIn
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            example:
+                              {"username":"####","password":"###"}
+            responses:
+                200:
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                201:
+                    description: Ok
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                404:
+                    description: "Service Not found"
+                500:
+                    description: "Internal Server Error"
+    /sign-in/otp:
+        post:
+            tags:
+                - Auth
+            summary: user otp-sign-in
+            operationId: userOtpSignIn
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            example:
+                              {"username":"####","token":"###"}
+            responses:
+                200:
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                201:
+                    description: Ok
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                404:
+                    description: "Service Not found"
+                500:
+                    description: "Internal Server Error"
+    /sign-in/forgot-password-otp:
+        post:
+            tags:
+                - Auth
+            summary: forgot password otp
+            operationId: forgotPasswordOTP
+            parameters:
+                - in: query
+                  name: username
+                  schema:
+                      type: string
+                  required: true
+            responses:
+                200:
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                201:
+                    description: Ok
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                404:
+                    description: "Service Not found"
+                500:
+                    description: "Internal Server Error"
+    /sign-in/reset-password:
+        post:
+            tags:
+                - Auth
+            summary: reset password
+            operationId: resetPassword
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            example:
+                              {"username":"####","password":"###","otp":"###"}
+            responses:
+                200:
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                201:
+                    description: Ok
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                404:
+                    description: "Service Not found"
+                500:
+                    description: "Internal Server Error"
+    /user/new-user:
+        post:
+            tags:
+                - User
+            summary: Registration of new user
+            operationId: addUser
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            example:
+                              {"firstName": "####","lastName": "####","email": "###@####.com","password","###","role": [1,2,3]}
+            responses:
+                200:
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                201:
+                    description: Ok
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                404:
+                    description: "Service Not found"
+                500:
+                    description: "Internal Server Error"
+    /user/change-password:
+        post:
+            tags:
+                - User
+            summary: change password
+            operationId: changePassword
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            example:
+                              {"username":"####","oldPassword":"###","newPassword":"###"}
+            responses:
+                200:
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                201:
+                    description: Ok
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                404:
+                    description: "Service Not found"
+                500:
+                    description: "Internal Server Error"
+    /user/reset-password:
+        post:
+            tags:
+                - User
+            summary: reset password
+            operationId: resetUserPassword
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            example:
+                              {"id":1,"password":"###"}
+            responses:
+                200:
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                201:
+                    description: Ok
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                404:
+                    description: "Service Not found"
+                500:
+                    description: "Internal Server Error"
+    /user/decrypt-password:
+        get:
+            tags:
+                - User
+            summary: decrypt password
+            operationId: decryptPassword
+            parameters:
+                - in: query
+                  name: username
+                  schema:
+                      type: string
+                  required: true
+            responses:
+                200:
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                201:
+                    description: Ok
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                404:
+                    description: "Service Not found"
+                500:
+                    description: "Internal Server Error"
+    /user/generate-mfa-qrcode:
+        get:
+            tags:
+                - User
+            summary: generate google multi factor authentication QR image
+            operationId: generateMfaQRCode
+            parameters:
+                - in: query
+                  name: username
+                  schema:
+                      type: string
+                  required: true
+            responses:
+                200:
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                201:
+                    description: Ok
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                404:
+                    description: "Service Not found"
+                500:
+                    description: "Internal Server Error"
+    /user/enable-mfa:
+        post:
+            tags:
+                - User
+            summary: enable google multi factor authentication
+            operationId: enableMfa
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            example:
+                              {"username":"####","mfaKey":"###","token":1}
+            responses:
+                200:
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                201:
+                    description: Ok
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                404:
+                    description: "Service Not found"
+                500:
+                    description: "Internal Server Error"
+    /user/disable-mfa:
+        post:
+            tags:
+                - User
+            summary: disable google multi factor authentication
+            operationId: disableMfa
+            parameters:
+                - in: query
+                  name: username
+                  schema:
+                      type: string
+                  required: true
+            responses:
+                200:
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                201:
+                    description: Ok
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                404:
+                    description: "Service Not found"
+                500:
+                    description: "Internal Server Error"
+    /user/edit-user:
+        patch:
+            tags:
+                - User
+            summary: edit user
+            operationId: editUser
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            example:
+                              {"id":1,"firstName": "####","lastName": "####","email": "###@####.com","role": [1,2,3]}
+            responses:
+                200:
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                201:
+                    description: Ok
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                404:
+                    description: "Service Not found"
+                500:
+                    description: "Internal Server Error"
+    /user/disable-user:
+        post:
+            tags:
+                - User
+            summary: disable user
+            operationId: disableUser
+            parameters:
+                - in: query
+                  name: userId
+                  schema:
+                      type: integer
+                      format: int64
+                  required: true
+            responses:
+                200:
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                201:
+                    description: Ok
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                404:
+                    description: "Service Not found"
+                500:
+                    description: "Internal Server Error"
+    /user/enable-mfa-to-all:
+        post:
+            tags:
+                - User
+            summary: enable MFA to all users
+            operationId: enableMFAToAllUsers
+            responses:
+                200:
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                201:
+                    description: Ok
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                404:
+                    description: "Service Not found"
+                500:
+                    description: "Internal Server Error"
+    /user/disable-mfa-to-all:
+        post:
+            tags:
+                - User
+            summary: disable MFA to all users
+            operationId: disableMFAToAllUsers
+            responses:
+                200:
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                201:
+                    description: Ok
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                404:
+                    description: "Service Not found"
+                500:
+                    description: "Internal Server Error"
+    /user/all-users:
+        get:
+            tags:
+                - User
+            summary: get all users
+            operationId: getAllUsers
+            responses:
+                200:
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                201:
+                    description: Ok
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                404:
+                    description: "Service Not found"
+                500:
+                    description: "Internal Server Error"
+    /user/profile-image-upload/{id}:
+        patch:
+            tags:
+                - User
+            summary: upload profile image
+            operationId: uploadUserProfileImage
+            parameters:
+                - in: path
+                  name: id
+                  schema:
+                      type: integer
+                      format: int64
+                  required: true
+            requestBody:
+                required: true
+                content:
+                    multipart/form-data:
+                        schema:
+                            type: object
+                            properties:
+                                file:
+                                    type: string
+                                    format: binary
+            responses:
+                200:
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                201:
+                    description: Ok
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                404:
+                    description: "Service Not found"
+                500:
+                    description: "Internal Server Error"
+    /user/profile-image-delete:
+        patch:
+            tags:
+                - User
+            summary: delete profile image
+            operationId: deleteUserProfileImage
+            parameters:
+                - in: query
+                  name: id
+                  schema:
+                      type: integer
+                      format: int64
+                  required: true
+            responses:
+                200:
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                201:
+                    description: Ok
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                404:
+                    description: "Service Not found"
+                500:
+                    description: "Internal Server Error"
+    /user/get-profile-image:
+        get:
+            tags:
+                - User
+            summary: get profile image
+            operationId: getUserProfileImage
+            parameters:
+                - in: query
+                  name: id
+                  schema:
+                      type: integer
+                      format: int64
+                  required: true
+            responses:
+                200:
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                201:
+                    description: Ok
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                404:
+                    description: "Service Not found"
+                500:
+                    description: "Internal Server Error"
+    /role/new-role:
+        post:
+            tags:
+                - Role
+            summary: add new role
+            operationId: addRole
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            example:
+                              {"name": "####","description": "####","permissions": [{"category":"###","name":"###"}]}
+            responses:
+                200:
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                201:
+                    description: Ok
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                404:
+                    description: "Service Not found"
+                500:
+                    description: "Internal Server Error"
+    /role/edit-role:
+        patch:
+            tags:
+                - Role
+            summary: edit role
+            operationId: editRole
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            example:
+                              {"id":1, "name": "####","description": "####","permissions": [{"category":"###","name":"###"}]}
+            responses:
+                200:
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                201:
+                    description: Ok
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                404:
+                    description: "Service Not found"
+                500:
+                    description: "Internal Server Error"
+    /role/delete-role:
+        delete:
+            tags:
+                - Role
+            summary: delete role
+            operationId: deleteRole
+            parameters:
+                - in: query
+                  name: roleId
+                  schema:
+                      type: integer
+                      format: int64
+                  required: true
+            responses:
+                200:
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                201:
+                    description: Ok
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                404:
+                    description: "Service Not found"
+                500:
+                    description: "Internal Server Error"
+    /role/all-roles:
+        get:
+            tags:
+                - Role
+            summary: get all roles
+            operationId: getAllRoles
+            responses:
+                200:
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                201:
+                    description: Ok
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                404:
+                    description: "Service Not found"
+                500:
+                    description: "Internal Server Error"
+    /permission/all-permissions:
+        get:
+            tags:
+                - Permission
+            summary: get all permissions
+            operationId: getAllPermissions
+            responses:
+                200:
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                201:
+                    description: Ok
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                404:
+                    description: "Service Not found"
+                500:
+                    description: "Internal Server Error"
+    /preference/new-preference:
+        post:
+            tags:
+                - Preferences
+            summary: add new preference
+            operationId: addPreference
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            example:
+                              [
+                                  {
+                                      "category": "###",
+                                      "pfKey": "###",
+                                      "pfValue": "###"
+                                  },
+                                  {
+                                      "category": "###",
+                                      "pfKey": "###",
+                                      "pfValue": "###"
+                                  }
+                              ]
+            responses:
+                200:
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                201:
+                    description: Ok
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                404:
+                    description: "Service Not found"
+                500:
+                    description: "Internal Server Error"
+    /preference/edit-preference:
+        patch:
+            tags:
+                - Preferences
+            summary: edit preference
+            operationId: editPreference
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            example:
+                              {"id":1,"category": "####","pfKey": "####","pfValue": "###"}
+            responses:
+                200:
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                201:
+                    description: Ok
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                404:
+                    description: "Service Not found"
+                500:
+                    description: "Internal Server Error"
+    /preference/delete-preference:
+        delete:
+            tags:
+                - Preferences
+            summary: delete preference
+            operationId: deletePreference
+            parameters:
+                - in: query
+                  name: Id
+                  schema:
+                      type: integer
+                      format: int64
+                  required: true
+            responses:
+                200:
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                201:
+                    description: Ok
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                404:
+                    description: "Service Not found"
+                500:
+                    description: "Internal Server Error"
+    /preference/all-preferences:
+        get:
+            tags:
+                - Preferences
+            summary: get all preferences
+            operationId: getAllPreferences
+            responses:
+                200:
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                201:
+                    description: Ok
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                404:
+                    description: "Service Not found"
+                500:
+                    description: "Internal Server Error"
+    /preference/search-preferences:
+        get:
+            tags:
+                - Preferences
+            summary: search preferences
+            operationId: searchPreferences
+            parameters:
+                - in: query
+                  name: searchPreference
+                  required: false
+                  content:
+                      application/json:
+                          schema:
+                              $ref: '#/components/schemas/SearchPreferenceRequest'
+            responses:
+                200:
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                201:
+                    description: Ok
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                404:
+                    description: "Service Not found"
+                500:
+                    description: "Internal Server Error"
+    /customer/new-customer:
+        post:
+            tags:
+                - Customers
+            summary: add new customer
+            operationId: addCustomer
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            example:
+                              {
+                                  "name": "###",
+                                  "companyName": "###",
+                                  "companyAbrv": "###",
+                                  "phoneNo": "###",
+                                  "email": "###",
+                                  "address": "###",
+                                  "city": "###",
+                                  "zipCode": "###",
+                                  "country": "###",
+                                  "state": "###"
+                              }
+            responses:
+                200:
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                201:
+                    description: Ok
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                404:
+                    description: "Service Not found"
+                500:
+                    description: "Internal Server Error"
+    /customer/edit-customer:
+        patch:
+            tags:
+                - Customers
+            summary: edit customer
+            operationId: editCustomer
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            example:
+                              {
+                                  "id":1,
+                                  "name": "###",
+                                  "companyName": "###",
+                                  "phoneNo": "###",
+                                  "email": "###",
+                                  "address": "###",
+                                  "city": "###",
+                                  "zipCode": "###",
+                                  "country": "###"
+                              }
+            responses:
+                200:
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                201:
+                    description: Ok
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                404:
+                    description: "Service Not found"
+                500:
+                    description: "Internal Server Error"
+    /customer/set-unset-favourite:
+        patch:
+            tags:
+                - Customers
+            summary: set or unset customer as favourite
+            operationId: setUnsetFavouriteCustomer
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            example:
+                              {
+                                  "id":1,
+                                  "isFavourite": "false",
+                              }
+            responses:
+                200:
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                201:
+                    description: Ok
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                404:
+                    description: "Service Not found"
+                500:
+                    description: "Internal Server Error"
+    /customer/set-archive:
+        patch:
+            tags:
+                - Customers
+            summary: archive a customer
+            operationId: setCustomerArchive
+            parameters:
+                - in: query
+                  name: id
+                  schema:
+                      type: integer
+                      format: int64
+                  required: true
+            responses:
+                200:
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                201:
+                    description: Ok
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                404:
+                    description: "Service Not found"
+                500:
+                    description: "Internal Server Error"
+    /customer/set-active:
+        patch:
+            tags:
+                - Customers
+            summary: make a customer active
+            operationId: setCustomerActive
+            parameters:
+                - in: query
+                  name: id
+                  schema:
+                      type: integer
+                      format: int64
+                  required: true
+            responses:
+                200:
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                201:
+                    description: Ok
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                404:
+                    description: "Service Not found"
+                500:
+                    description: "Internal Server Error"
+    /customer/delete-customer:
+        delete:
+            tags:
+                - Customers
+            summary: delete customer
+            operationId: deleteCustomer
+            parameters:
+                - in: query
+                  name: id
+                  schema:
+                      type: integer
+                      format: int64
+                  required: true
+            responses:
+                200:
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                201:
+                    description: Ok
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                404:
+                    description: "Service Not found"
+                500:
+                    description: "Internal Server Error"
+    /customer/search-customers:
+        get:
+            tags:
+                - Customers
+            summary: search customers
+            operationId: searchCustomers
+            parameters:
+                - in: query
+                  name: searchRequest
+                  required: false
+                  content:
+                      application/json:
+                          schema:
+                              $ref: '#/components/schemas/SearchCustomerRequest'
+            responses:
+                200:
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                201:
+                    description: Ok
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                404:
+                    description: "Service Not found"
+                500:
+                    description: "Internal Server Error"
+    /customer/profile-image-upload/{id}:
+        patch:
+            tags:
+                - Customers
+            summary: upload profile image
+            operationId: uploadCustomerProfileImage
+            parameters:
+                - in: path
+                  name: id
+                  schema:
+                      type: integer
+                      format: int64
+                  required: true
+            requestBody:
+                required: true
+                content:
+                    multipart/form-data:
+                        schema:
+                            type: object
+                            properties:
+                                file:
+                                    type: string
+                                    format: binary
+            responses:
+                200:
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                201:
+                    description: Ok
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                404:
+                    description: "Service Not found"
+                500:
+                    description: "Internal Server Error"
+    /customer/profile-image-delete:
+        patch:
+            tags:
+                - Customers
+            summary: delete profile image
+            operationId: deleteCustomerProfileImage
+            parameters:
+                - in: query
+                  name: id
+                  schema:
+                      type: integer
+                      format: int64
+                  required: true
+            responses:
+                200:
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                201:
+                    description: Ok
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                404:
+                    description: "Service Not found"
+                500:
+                    description: "Internal Server Error"
+    /customer/get-profile-image:
+        get:
+            tags:
+                - Customers
+            summary: get profile image
+            operationId: getCustomerProfileImage
+            parameters:
+                - in: query
+                  name: id
+                  schema:
+                      type: integer
+                      format: int64
+                  required: true
+            responses:
+                200:
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                201:
+                    description: Ok
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                404:
+                    description: "Service Not found"
+                500:
+                    description: "Internal Server Error"
+    /customer/audit-history:
+        get:
+            tags:
+                - Customers
+            summary: get customer history
+            operationId: getCustomerAuditHistory
+            parameters:
+                - in: query
+                  name: id
+                  schema:
+                      type: integer
+                      format: int64
+                  required: true
+            responses:
+                200:
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                201:
+                    description: Ok
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                404:
+                    description: "Service Not found"
+                500:
+                    description: "Internal Server Error"
+    /customer-note/new-note:
+        post:
+            tags:
+                - CustomerNotes
+            summary: add new customer note
+            operationId: addCustomerNote
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            example:
+                              {
+                                  "notes": "###",
+                                  "customerId": 1
+                              }
+            responses:
+                200:
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                201:
+                    description: Ok
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                404:
+                    description: "Service Not found"
+                500:
+                    description: "Internal Server Error"
+    /customer-note/edit-note:
+        patch:
+            tags:
+                - CustomerNotes
+            summary: edit customer note
+            operationId: editCustomerNote
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            example:
+                              {
+                                  "id":1,
+                                  "notes": "###",
+                                  "customerId": 1
+                              }
+            responses:
+                200:
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                201:
+                    description: Ok
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                404:
+                    description: "Service Not found"
+                500:
+                    description: "Internal Server Error"
+    /customer-note/delete-note:
+        delete:
+            tags:
+                - CustomerNotes
+            summary: delete customer note
+            operationId: deleteCustomerNote
+            parameters:
+                - in: query
+                  name: id
+                  schema:
+                      type: integer
+                      format: int64
+                  required: true
+            responses:
+                200:
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                201:
+                    description: Ok
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                404:
+                    description: "Service Not found"
+                500:
+                    description: "Internal Server Error"
+    /customer-note/delete-all:
+        delete:
+            tags:
+                - CustomerNotes
+            summary: delete all notes of a customer
+            operationId: deleteAllCustomerNote
+            parameters:
+                - in: query
+                  name: customerId
+                  schema:
+                      type: integer
+                      format: int64
+                  required: true
+            responses:
+                200:
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                201:
+                    description: Ok
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                404:
+                    description: "Service Not found"
+                500:
+                    description: "Internal Server Error"
+    /customer-note/search-notes:
+        get:
+            tags:
+                - CustomerNotes
+            summary: search customer notes
+            operationId: searchCustomerNotes
+            parameters:
+                - in: query
+                  name: customerId
+                  schema:
+                      type: integer
+                      format: int64
+                  required: false
+            responses:
+                200:
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                201:
+                    description: Ok
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                404:
+                    description: "Service Not found"
+                500:
+                    description: "Internal Server Error"
+    /global-search:
+        get:
+            tags:
+                - GlobalSearch
+            summary: global search
+            operationId: globalSearch
+            parameters:
+                - in: query
+                  name: q
+                  schema:
+                      type: string
+                  required: true
+            responses:
+                200:
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                201:
+                    description: Ok
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                404:
+                    description: "Service Not found"
+                500:
+                    description: "Internal Server Error"
+    /quotation/new-quotation:
+        post:
+            tags:
+                - Quotations
+            summary: add new quotation
+            operationId: addQuotation
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            example:
+                              {
+                                  "qtNumber": "###",
+                                  "qtOwner": "###",
+                                  "status": "###",
+                                  "qtExpiryDate": "###",
+                                  "qtDate":"###",
+                                  "dynamicFields":{
+                                      "fieldName":"fieldValue"
+                                  },
+                                  "customerId":1,
+                                  "addProductRequest":{
+                                      "name":"###",
+                                      "custPrdNumber":"###",
+                                      "category":"###",
+                                      "type":"###",
+                                      "capsuleSize":"###",
+                                      "packagingType":"###",
+                                      "countPerBottle":1,
+                                      "batchSize":1,
+                                      "dosagePerUnit":1,
+                                      "materialCost":1.00,
+                                      "processLoss":1.00,
+                                      "fillerCost":1.00,
+                                      "freightCharges":1.00,
+                                      "markUp":1.00,
+                                      "capsuleFillingCost":1.00,
+                                      "packagingCost":1.00,
+                                      "testingCost":1.00,
+                                      "stabilityCost":1.00,
+                                      "fulfillmentCost":1.00,
+                                      "dynamicFields":{
+                                          "fieldName":"fieldValue"
+                                      },
+                                      "addProductIngredientRequests":[
+                                          {
+                                              "rmId": "###",
+                                              "activeIngredient": "###",
+                                              "label": "###",
+                                              "units": "###",
+                                              "perDosage": "###",
+                                              "qtyUnit": "###",
+                                              "pricePerUnit": 1.00,
+                                              "cost": 1.00,
+                                              "productId": 1
+                                          },
+                                          {
+                                              "rmId": "###",
+                                              "activeIngredient": "###",
+                                              "label": "###",
+                                              "units": "###",
+                                              "perDosage": "###",
+                                              "qtyUnit": "###",
+                                              "pricePerUnit": 1.00,
+                                              "cost": 1.00,
+                                              "productId": 1
+                                          }
+                                      ]
+                                  }
+                              }
+            responses:
+                200:
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                201:
+                    description: Ok
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                404:
+                    description: "Service Not found"
+                500:
+                    description: "Internal Server Error"
+    /quotation/edit-quotation:
+        patch:
+            tags:
+                - Quotations
+            summary: edit quotation
+            operationId: editQuotation
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            example:
+                              {
+                                  "id":1,
+                                  "qtNumber": "###",
+                                  "qtOwner": "###",
+                                  "status": "###",
+                                  "qtExpiryDate": "###",
+                                  "qtDate":"###",
+                                  "dynamicFields":{
+                                      "fieldName":"fieldValue"
+                                  },
+                                  "customer":{
+                                      "id":1
+                                  }
+                              }
+            responses:
+                200:
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                201:
+                    description: Ok
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                404:
+                    description: "Service Not found"
+                500:
+                    description: "Internal Server Error"
+    /quotation/review-quotation:
+        patch:
+            tags:
+                - Quotations
+            summary: review quotation
+            operationId: reviewQuotation
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            example:
+                              {
+                                  "id":1,
+                                  "status": "###",
+                                  "comments": "###",
+                              }
+            responses:
+                200:
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                201:
+                    description: Ok
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                404:
+                    description: "Service Not found"
+                500:
+                    description: "Internal Server Error"
+    /quotation/delete-quotation:
+        delete:
+            tags:
+                - Quotations
+            summary: delete quotation
+            operationId: deleteQuotation
+            parameters:
+                - in: query
+                  name: id
+                  schema:
+                      type: integer
+                      format: int64
+                  required: true
+            responses:
+                200:
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                201:
+                    description: Ok
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                404:
+                    description: "Service Not found"
+                500:
+                    description: "Internal Server Error"
+    /quotation/search-quotations:
+        get:
+            tags:
+                - Quotations
+            summary: search quotations
+            operationId: searchQuotations
+            parameters:
+                - in: query
+                  name: searchQuotations
+                  required: false
+                  content:
+                      application/json:
+                          schema:
+                              $ref: '#/components/schemas/SearchQuotationRequest'
+            responses:
+                200:
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                201:
+                    description: Ok
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                404:
+                    description: "Service Not found"
+                500:
+                    description: "Internal Server Error"
+    /quotation/audit-history:
+        get:
+            tags:
+                - Quotations
+            summary: get quotation history
+            operationId: getQuotationAuditHistory
+            parameters:
+                - in: query
+                  name: id
+                  schema:
+                      type: integer
+                      format: int64
+                  required: true
+            responses:
+                200:
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                201:
+                    description: Ok
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                404:
+                    description: "Service Not found"
+                500:
+                    description: "Internal Server Error"
+    /quotation/download:
+        get:
+            tags:
+                - Quotations
+            summary: download quotation pdf
+            operationId: downdloadQuotation
+            parameters:
+                - in: query
+                  name: id
+                  schema:
+                      type: integer
+                      format: int64
+                  required: true
+            responses:
+                200:
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                201:
+                    description: Ok
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                404:
+                    description: "Service Not found"
+                500:
+                    description: "Internal Server Error"
+    /document/new-document:
+        post:
+            tags:
+                - Documents
+            summary: add document
+            operationId: addDocument
+            requestBody:
+                required: true
+                content:
+                    multipart/form-data:
+                        schema:
+                            type: object
+                            properties:
+                                file:
+                                    type: string
+                                    format: binary
+                                source:
+                                    type: object
+            responses:
+                200:
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                201:
+                    description: Ok
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                404:
+                    description: "Service Not found"
+                500:
+                    description: "Internal Server Error"
+    /document/delete-document:
+        delete:
+            tags:
+                - Documents
+            summary: delete document
+            operationId: deleteDocument
+            parameters:
+                - in: query
+                  name: id
+                  schema:
+                      type: integer
+                      format: int64
+                  required: true
+            responses:
+                200:
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                201:
+                    description: Ok
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                404:
+                    description: "Service Not found"
+                500:
+                    description: "Internal Server Error"
+    /document/download-document:
+        get:
+            tags:
+                - Documents
+            summary: download document
+            operationId: downloadDocument
+            parameters:
+                - in: query
+                  name: id
+                  schema:
+                      type: integer
+                      format: int64
+                  required: true
+            responses:
+                200:
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                201:
+                    description: Ok
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                404:
+                    description: "Service Not found"
+                500:
+                    description: "Internal Server Error"
+    /entity-status/get-status:
+        get:
+            tags:
+                - EntityStatus
+            summary: get entity status
+            operationId: getEntityStatus
+            responses:
+                200:
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                201:
+                    description: Ok
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                404:
+                    description: "Service Not found"
+                500:
+                    description: "Internal Server Error"
+    /country/all-countries:
+        get:
+            tags:
+                - Countries
+            summary: get list of countries
+            operationId: getAllCountries
+            responses:
+                200:
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                201:
+                    description: Ok
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                404:
+                    description: "Service Not found"
+                500:
+                    description: "Internal Server Error"
+    /country/two-char-code:
+        get:
+            tags:
+                - Countries
+            summary: get country by two char code
+            operationId: getByTwoCharCode
+            parameters:
+                - in: query
+                  name: code
+                  schema:
+                      type: string
+                  required: true
+            responses:
+                200:
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                201:
+                    description: Ok
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                404:
+                    description: "Service Not found"
+                500:
+                    description: "Internal Server Error"
+    /country/three-char-code:
+        get:
+            tags:
+                - Countries
+            summary: get country by three char code
+            operationId: getByThreeCharCode
+            parameters:
+                - in: query
+                  name: code
+                  schema:
+                      type: string
+                  required: true
+            responses:
+                200:
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                201:
+                    description: Ok
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                404:
+                    description: "Service Not found"
+                500:
+                    description: "Internal Server Error"
+    /state/state-code:
+        get:
+            tags:
+                - States
+            summary: get state by state code
+            operationId: getByStateCode
+            parameters:
+                - in: query
+                  name: code
+                  schema:
+                      type: string
+                  required: true
+            responses:
+                200:
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                201:
+                    description: Ok
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                404:
+                    description: "Service Not found"
+                500:
+                    description: "Internal Server Error"
+    /state/name:
+        get:
+            tags:
+                - States
+            summary: get state by name
+            operationId: getByName
+            parameters:
+                - in: query
+                  name: name
+                  schema:
+                      type: string
+                  required: true
+            responses:
+                200:
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                201:
+                    description: Ok
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                404:
+                    description: "Service Not found"
+                500:
+                    description: "Internal Server Error"
+    /state/country/{id}:
+        get:
+            tags:
+                - States
+            summary: get state by country id
+            operationId: getByCountryId
+            parameters:
+                - in: path
+                  name: id
+                  schema:
+                      type: integer
+                      format: int64
+                  required: true
+            responses:
+                200:
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                201:
+                    description: Ok
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                404:
+                    description: "Service Not found"
+                500:
+                    description: "Internal Server Error"
+components:
+    schemas:
+        SearchCustomerRequest:
+            type: object
+            properties:
+                id:
+                    type: integer
+                    format: int64
+                uid:
+                    type: string
+                name:
+                    type: string
+                companyName:
+                    type: string
+                companyAbrv:
+                    type: string
+                phoneNo:
+                    type: string
+                email:
+                    type: string
+                address:
+                    type: string
+                city:
+                    type: string
+                zipCode:
+                    type: string
+                country:
+                    type: string
+                state:
+                    type: string
+                favourite:
+                    type: boolean
+                isNew:
+                    type: boolean
+                isLead:
+                    type: boolean
+                createdBy:
+                    type: string
+                createdOn:
+                    type: string
+                updatedBy:
+                    type: string
+                updatedOn:
+                    type: string
+        SearchPreferenceRequest:
+            type: object
+            properties:
+                id:
+                    type: integer
+                    format: int64
+                category:
+                    type: string
+                pfKey:
+                    type: string
+                pfValue:
+                    type: string
+                createdBy:
+                    type: string
+                createdOn:
+                    type: string
+                updatedBy:
+                    type: string
+                updatedOn:
+                    type: string
+        SearchQuotationRequest:
+            type: object
+            properties:
+                id:
+                    type: integer
+                    format: int64
+                uid:
+                    type: string
+                qtNumber:
+                    type: string
+                qtOwner:
+                    type: string
+                status:
+                    type: string
+                qtExpiryDate:
+                    type: string
+                qtDate:
+                    type: string
+                version:
+                    type: integer
+                    format: int64
+                createdBy:
+                    type: string
+                createdOn:
+                    type: string
+                updatedBy:
+                    type: string
+                updatedOn:
+                    type: string
+                customerId:
+                    type: integer
+                    format: int64
+

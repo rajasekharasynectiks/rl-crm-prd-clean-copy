@@ -1,0 +1,127 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>com.rlabs.crm</groupId>
+        <artifactId>rlcrm</artifactId>
+        <version>0.0.1-SNAPSHOT</version>
+        <relativePath>../pom.xml</relativePath>
+    </parent>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.build.outputEncoding>UTF-8</project.build.outputEncoding>
+    </properties>
+
+    <artifactId>core-service-api</artifactId>
+    <packaging>jar</packaging>
+    <name>${project.artifactId}</name>
+
+    <build>
+        <plugins>
+            <plugin>
+                <!--
+                    Plugin that provides API-first development using openapi-generator-cli to
+                    generate Spring-MVC endpoint stubs at compile time from an OpenAPI definition file
+                -->
+                <groupId>org.openapitools</groupId>
+                <artifactId>openapi-generator-maven-plugin</artifactId>
+                <version>${openapi-generator-maven-plugin.version}</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                        <configuration>
+                            <inputSpec>${basedir}/src/main/resources/rest_api.yaml</inputSpec>
+                            <generatorName>spring</generatorName>
+                            <library>spring-boot</library>
+                            <apiPackage>com.rlabs.crm.api.controller</apiPackage>
+                            <modelPackage>com.rlabs.crm.api.model</modelPackage>
+<!--                            <supportingFilesToGenerate>ApiUtil.java</supportingFilesToGenerate>-->
+                            <environmentVariables>
+                                <supportingFiles>
+                                    ApiUtil.java
+                                </supportingFiles>
+                            </environmentVariables>
+
+                            <skipValidateSpec>false</skipValidateSpec>
+
+                            <generateApis>true</generateApis>
+                            <generateApiTests>false</generateApiTests>
+                            <generateApiDocumentation>false</generateApiDocumentation>
+                            <generateModels>true</generateModels>
+                            <generateModelTests>false</generateModelTests>
+                            <generateModelDocumentation>false</generateModelDocumentation>
+                            <generateSupportingFiles>false</generateSupportingFiles>
+
+
+                            <configOptions>
+                                <delegatePattern>false</delegatePattern>
+                                <interfaceOnly>true</interfaceOnly>
+                                <useBeanValidation>true</useBeanValidation>
+                                <performBeanValidation>true</performBeanValidation>
+                                <title>rlcrm</title>
+                                <useSpringBoot3>true</useSpringBoot3>
+                                <serializableModel>true</serializableModel>
+                                <sourceFolder>/src/main/java</sourceFolder>
+                                <implFolder>/src/main/java</implFolder>
+                            </configOptions>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>${maven-jar-plugin.version}</version>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                        <configuration>
+                            <classifier>client</classifier>
+                            <includes>
+                                <include>**/*</include>
+                            </includes>
+                            <outputDirectory>${project.build.directory}</outputDirectory>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-install-plugin</artifactId>
+                <version>3.0.0-M1</version>
+                <executions>
+                    <execution>
+<!--                        <phase>initialize</phase>-->
+                        <goals>
+                            <goal>install-file</goal>
+                        </goals>
+<!--                        <id>install-classifier-jar</id>-->
+<!--                        <goals>-->
+<!--                            <goal>install</goal>-->
+<!--                        </goals>-->
+                        <phase>install</phase>
+                        <configuration>
+                            <file>${project.build.directory}/${project.artifactId}-${project.version}-client.jar</file>
+                            <groupId>${project.groupId}</groupId>
+                            <artifactId>${project.artifactId}</artifactId>
+                            <version>${project.version}-client</version>
+                            <packaging>jar</packaging>
+<!--                            <classifier>client</classifier>-->
+                            <generatePom>true</generatePom>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+        </plugins>
+    </build>
+</project>

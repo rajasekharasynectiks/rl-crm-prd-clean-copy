@@ -1,0 +1,113 @@
+[
+  {
+    "category": "Quotation",
+    "permission": [
+      "Create Quotation",
+      "Edit Quotation",
+      "Copy Quotation",
+      "Delete Quotation",
+      "View Quotation",
+      "Approve Quotation",
+      "Convert to Customer Order"
+    ]
+  },
+  {
+    "category": "Customer",
+    "permission": [
+      "Create Customer",
+      "Edit Customer",
+      "Copy Customer",
+      "Delete Customer",
+      "View Customer",
+      "Approve Customer"
+    ]
+  },
+  {
+    "category": "Product",
+    "permission": [
+      "Create Product",
+      "Edit Product",
+      "Copy Product",
+      "Delete Product",
+      "View Product",
+      "Approve Product"
+    ]
+  },
+  {
+    "category": "Customer Order",
+    "permission": [
+      "Create Customer Order",
+      "Edit Customer Order",
+      "Copy Customer Order",
+      "Delete Customer Order",
+      "View Customer Order",
+      "Approve Customer Order"
+    ]
+  },
+  {
+    "category": "Raw Material",
+    "permission": [
+      "View Raw Material"
+    ]
+  },
+  {
+    "category": "Vendor",
+    "permission": [
+      "View Vendor"
+    ]
+  },
+  {
+    "category": "Purchase Order",
+    "permission": [
+      "Create Purchase Order",
+      "Edit Purchase Order",
+      "Copy Purchase Order",
+      "Delete Purchase Order",
+      "View Purchase Order"
+    ]
+  },
+  {
+    "category": "User Self Service",
+    "permission": [
+      "View Account",
+      "Change Password",
+      "Edit Profile Image",
+      "Edit MFA",
+      "View Self Permissions",
+      "View Self Roles"
+    ]
+  },
+  {
+    "category": "RBAC",
+    "permission": [
+      "View Account",
+      "View Users and Permissions",
+      "View All Users",
+      "Create User",
+      "Edit User",
+      "Disable User",
+      "View All Roles",
+      "Create Role",
+      "Edit Role",
+      "Delete Role",
+      "View All Permissions",
+      "View Enforce MFA To All Users",
+      "Apply MFA To All Users",
+      "Revoke Enforced MFA From All Users"
+    ]
+  },
+  {
+    "category": "Menu",
+    "permission": [
+      "View Quotations",
+      "View FPS",
+      "View Customers",
+      "View Inventory",
+      "View Raw Materials",
+      "View Vendor Profile",
+      "View Purchase Order",
+      "View Products",
+      "View Settings"
+    ]
+  }
+]
